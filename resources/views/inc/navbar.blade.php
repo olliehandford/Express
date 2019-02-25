@@ -15,6 +15,11 @@
             
             <li><a href="discord">Discord</a></li>
             <li><a href="account">My Account</a></li>
+            
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <li><button type="submit">Logout</button></li>
+            </form>
         @else
             <li><a href="login">Login</a></li>
         @endif

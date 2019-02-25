@@ -13,30 +13,17 @@ class Subscriptions extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptions', function(Blueprint $table) {
-            $table->string('id')->primary();
-            $table->integer('user_id')->nullable()->unsigned();
-            $table->foreign('user_id')
-                    ->references('id')->on('users')
-                    ->onDelete('cascade')->onUpdate('cascade');
-            $table->string('status');
-            $table->string('customer_id');
-            $table->timestamps();
-        });
-
-        Schema::create('payments', function(Blueprint $table) {
+        Schema::create('subscriptions', function ($table) {
             $table->increments('id');
-            $table->string('subscription_id');
-            $table->foreign('subscription_id')
-                    ->references('id')->on('subscriptions')
-                    ->onDelete('cascade')->onUpdate('cascade');
-            $table->string('amount');
-            $table->string('payer_name');
-            $table->string('payer_email');
+            $table->unsignedInteger('user_id');
+            $table->string('name');
+            $table->string('stripe_id')->collation('utf8mb4_bin');
+            $table->string('stripe_plan');
+            $table->integer('quantity');
+            $table->timestamp('trial_ends_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
             $table->timestamps();
         });
-
-       
     }
 
     /**
@@ -47,6 +34,5 @@ class Subscriptions extends Migration
     public function down()
     {
         Schema::dropIfExists('subscriptions');
-        Schema::dropIfExists('payments');
     }
 }

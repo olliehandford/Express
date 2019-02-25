@@ -23,6 +23,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'PagesController@index');
 Route::get('/about', 'PagesController@about');
 
+Route::group(['prefix' => 'buy'], function() {
+    Route::get('/', ['uses' => 'BuyController@index', 'as' => 'buy']);
+    Route::post('/', ['uses' => 'BuyController@buyWithAccount', 'as' => 'buy-withaccount']);
+});
 
 Route::group(['middleware' => 'auth'], function() {
     // Handle discord authentication routes

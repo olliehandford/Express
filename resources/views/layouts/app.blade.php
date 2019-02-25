@@ -21,7 +21,12 @@
     <body>
         @include('inc.navbar')
         <div class="container">
-            @yield('content')
+            @include('partials.notice')
+
+            @yield('content') 
         </div>
+        <script src="https://js.stripe.com/v2/"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{{ asset('js/stripe.js') }}"></script>
     </body>
 </html>
