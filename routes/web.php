@@ -17,15 +17,19 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'PagesController@dashboard');
 
 
 Route::get('/', 'PagesController@index');
+Route::get('/home', 'PagesController@index')->name('home');
 Route::get('/about', 'PagesController@about');
 
-Route::group(['prefix' => 'buy'], function() {
+Route::post('/restock', 'RestockController@enterWithPassword')->name('restock');
+
+Route::group(['prefix' => 'buy', 'middleware' => 'restock'], function() {
     Route::get('/', ['uses' => 'BuyController@index', 'as' => 'buy']);
     Route::post('/', ['uses' => 'BuyController@buyWithAccount', 'as' => 'buy-withaccount']);
+    Route::post('/without', ['uses' => 'BuyController@buyWithoutAccount', 'as' => 'buy-withoutaccount']);
 });
 
 Route::group(['middleware' => 'auth'], function() {
@@ -34,8 +38,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/discord/join', 'DiscordController@join');
     Route::get('/discord/handler', 'DiscordController@handleJoin');
 
-    // Handle account authentication routes
-    Route::get('/account', 'AccountController@index');
+    Route::group(['prefix' => 'account'], function () {
+        // Handle account authentication routes
+        Route::get('/', 'AccountController@index')->name('account');
+        Route::get('/cancel', 'AccountController@cancelSubscription')->name('buy-cancel');
+        Route::get('/resume', 'AccountController@resumeSubscription')->name('buy-resume');
+    });
 });
 
 

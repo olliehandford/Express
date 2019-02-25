@@ -10,8 +10,7 @@ class PagesController extends Controller
     //
 
     public function index() {
-        $title = 'Welcome to Express';
-        return view('pages.index')->with('title', $title);
+        return view('home');
     }
 
     public function about() {
@@ -25,6 +24,10 @@ class PagesController extends Controller
     public function sites() {
         $sites = MonitorSites::all();
         return view('pages.sites')->with('sites', $sites);
+    }
+
+    public function dashboard() {
+        return view('home');
     }
 
 }
