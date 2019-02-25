@@ -1,0 +1,12 @@
+@extends('layouts.app')
+
+
+@section('content')
+
+    <div class="wrapper">
+        <account></account>
+    </div>
+    
+    <script src="{{ asset('js/app.js') }}"></script>
+
+@endsection
